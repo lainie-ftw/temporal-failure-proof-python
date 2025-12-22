@@ -1,5 +1,5 @@
 ---
-slug: module-1
+slug: module-01
 id: zzmodvjpso51
 type: challenge
 title: 'Module 1: Exploring Crash-Proof'
@@ -8,12 +8,10 @@ tabs:
   title: Terminal 1
   type: terminal
   hostname: workshop-host
-  path: ?workdir=%2Fworkspace%2Ftemporal-failure-proof-python%2Fexercises%2Fmodule01
 - id: 3j6zghuaoxs5
   title: Terminal 2
   type: terminal
   hostname: workshop-host
-  path: ?workdir=%2Fworkspace%2Ftemporal-failure-proof-python%2Fexercises%2Fmodule01
 - id: mqnjxgrejxh1
   title: Temporal UI
   type: service
