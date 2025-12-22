@@ -4,5 +4,3 @@ virtualmachines:
   image: instruqt/docker-28-3
   shell: /bin/bash
   machine_type: n1-standard-1
-  memory: 4096
-  cpus: 1

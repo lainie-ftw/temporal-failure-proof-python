@@ -8,10 +8,12 @@ tabs:
   title: Terminal 1
   type: terminal
   hostname: workshop-host
+  workdir: /workspace/temporal-failure-proof-python/exercises/module01
 - id: 3j6zghuaoxs5
   title: Terminal 2
   type: terminal
   hostname: workshop-host
+  workdir: /workspace/temporal-failure-proof-python/exercises/module01
 - id: mqnjxgrejxh1
   title: Temporal UI
   type: service
