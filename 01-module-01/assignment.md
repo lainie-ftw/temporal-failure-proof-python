@@ -39,14 +39,19 @@ Exercise Steps
 ===
 
 ## Step 1: Let's see what failures look like without Temporal.
-1. This module uses `uv` as the Python package manager, so to execute the code, run the following command:
+1. Git clone
+```bash,run
+git clone https://github.com/lainie-ftw/temporal-failure-proof-python.git /workspace/temporal-failure-proof-python
+```
+CD?
+2. This module uses `uv` as the Python package manager, so to execute the code, run the following command:
 ```bash,run
 uv run python_print.py
 ```
 
-2. **Go to Terminal 1 [button label="Terminal 1" background="#444CE7"](tab-0):** and enter `ctrl + C` to stop the script.
+3. **Go to Terminal 1 [button label="Terminal 1" background="#444CE7"](tab-0):** and enter `ctrl + C` to stop the script.
 
-3. Run the Script again
+4. Run the Script again
 ```bash,run
 uv run python_print.py
 ```
