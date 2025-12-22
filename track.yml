@@ -13,7 +13,6 @@ developers:
 instructors: []
 idle_timeout: 0
 timelimit: 17880
-sandbox_preset: temporal-local-with-python-uv
 lab_config:
   extend_ttl: 0
   sidebar_enabled: true
