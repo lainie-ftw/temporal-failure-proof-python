@@ -3,7 +3,7 @@ import sys
 import time
 
 # Account API base URL
-API_BASE_URL = "http://localhost:5000"
+API_BASE_URL = "http://workshop-host:5000"
 
 # Retry configuration
 MAX_RETRIES = 3
