@@ -9,11 +9,6 @@ tabs:
   type: terminal
   hostname: workshop-host
   workdir: /workspace/temporal-failure-proof-python/exercises/module01
-- id: 3j6zghuaoxs5
-  title: Terminal 2
-  type: terminal
-  hostname: workshop-host
-  workdir: /workspace/temporal-failure-proof-python/exercises/module01
 - id: mqnjxgrejxh1
   title: Temporal UI
   type: service
@@ -72,7 +67,7 @@ uv run run_workflow.py
 uv run run_workflow.py
 ```
 
-The Workflow picks up right where it left off. It keeps track of state and doesn't repeat any steps. Keeping state mid-process is a key part of Temporal's durable execution. 
+The Workflow picks up right where it left off. It keeps track of state and doesn't repeat any steps. Keeping state mid-process is a key part of Temporal's durable execution.
 
 Note we didn't have to write any state management or code to checkpoint what state we were on to a database. Temporal automatically keeps track of what was done and what needs to be done next in your Workflows. You can think of it like a Workflow run _remembers_ where it was as it runs, even if interrupted.
 
@@ -90,6 +85,6 @@ Take time to examine:
 
 Notice how there was a gap in execution when you killed the Workflow process, but that it picked up right where it left off as soon as the process was restarted.
 
-In a production environment, it's rare to have all workers stopped for a long time, but it's useful for this exercise to see that when you stop and restart a Temporal worker process, nothing breaks, and they can pick up right where they left off. 
+In a production environment, it's rare to have all workers stopped for a long time, but it's useful for this exercise to see that when you stop and restart a Temporal worker process, nothing breaks, and they can pick up right where they left off.
 
-In later modules, we'll be using the Workflow state (memory) capability to handle harder kinds of errors. 
+In later modules, we'll be using the Workflow state (memory) capability to handle harder kinds of errors.
