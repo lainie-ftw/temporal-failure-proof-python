@@ -4,20 +4,24 @@ id: iciq2lchxv3m
 type: challenge
 title: 'Module 2: Exploring Simpler Retries'
 tabs:
-- title: Terminal 1
+- id: bc8hdose4qbs
+  title: Terminal 1
   type: terminal
   hostname: workshop-host
   workdir: /workspace/temporal-failure-proof-python/exercises/module02
-- title: Terminal 2
+- id: ii8vcve6x0kd
+  title: Terminal 2
   type: terminal
   hostname: workshop-host
   workdir: /workspace/temporal-failure-proof-python/exercises/module02
-- title: VS Code
+- id: re7hjtexvx4z
+  title: VS Code
   type: service
   hostname: workshop-host
   path: /
   port: 8443
-- title: Temporal UI
+- id: kzyh2wa3t2qn
+  title: Temporal UI
   type: service
   hostname: workshop-host
   path: /
@@ -63,15 +67,17 @@ Still good! Sweet!
 2. Run money movement with retries again - feel free to do this multiple times as REAL_WORLD_MODE only *sometimes* fails...
 
 
-## Step 3: Now, let's see it in temporal!
-(TBD)
+## Step 3: Now, let's see it in Temporal!
+```bash,run
+uv run run_workflow.py
+```
 
 ## Step 4: Check out the workflow in the Temporal UI
 Now let's examine the Workflow's state as it progressed.
 
 1. Click the **[button label="Temporal UI" background="#444CE7"](tab-3) Service tab** in your Instruqt envrionment.
 2. The **Workflows** pane will display all recent executions
-3. Locate your workflow (`print-numbers-workflow`) in the list
+3. Locate your workflow (`money-transfer-workflow`) in the list
 
 Take time to examine:
 - **Event History:** A timeline view of all workflow events
