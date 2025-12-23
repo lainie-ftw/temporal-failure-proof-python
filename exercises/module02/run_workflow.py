@@ -51,8 +51,9 @@ async def main():
         amount=100.00
     )
     
+    #todo move this to when the workflow isn't started below
     print(f"\n{'='*60}")
-    print(f"Starting money transfer workflow")
+    print(f"Starting (or resuming) money transfer workflow")
     print(f"  From: {workflow_input.from_account}")
     print(f"  To: {workflow_input.to_account}")
     print(f"  Amount: ${workflow_input.amount:.2f}")
