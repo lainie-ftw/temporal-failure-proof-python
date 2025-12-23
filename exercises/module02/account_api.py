@@ -1,16 +1,48 @@
 import json
 import os
+import random
+import time
 from pathlib import Path
 from flask import Flask, jsonify, request
 from threading import Lock
+from functools import wraps
 
 app = Flask(__name__)
+
+# Real world mode - things randomly fail! 
+REAL_WORLD_MODE = True
 
 # Path to our fake database
 DB_FILE = Path(__file__).parent / "accounts.json"
 
 # Lock for thread-safe file operations
 db_lock = Lock()
+
+
+def simulate_real_world_failures(f):
+    """Decorator to simulate real-world failures when REAL_WORLD_MODE is True."""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if REAL_WORLD_MODE:
+            failure_roll = random.random()
+            
+            # 10% of the time: timeout (simulate with long sleep)
+            if failure_roll < 0.1:
+                print(f"[REAL_WORLD_MODE] Simulating timeout for {f.__name__}")
+                time.sleep(30)  # Sleep for 30 seconds to simulate timeout
+                return jsonify({"error": "Request timeout"}), 504
+            
+            # 40% of the time: return an error
+            elif failure_roll < 0.5:
+                print(f"[REAL_WORLD_MODE] Simulating error for {f.__name__}")
+                return jsonify({"error": "Service temporarily unavailable"}), 500
+            
+            # 50% of the time: proceed normally
+            print(f"[REAL_WORLD_MODE] Proceeding normally for {f.__name__}")
+        
+        return f(*args, **kwargs)
+    
+    return decorated_function
 
 
 def read_accounts():
@@ -28,6 +60,7 @@ def write_accounts(accounts):
 
 
 @app.route('/accounts/<account_number>', methods=['GET'])
+@simulate_real_world_failures
 def get_account(account_number):
     """Get account balance."""
     accounts = read_accounts()
@@ -42,6 +75,7 @@ def get_account(account_number):
 
 
 @app.route('/accounts/<account_number>/withdraw', methods=['POST'])
+@simulate_real_world_failures
 def withdraw(account_number):
     """Withdraw money from account."""
     data = request.get_json()
@@ -81,6 +115,7 @@ def withdraw(account_number):
 
 
 @app.route('/accounts/<account_number>/deposit', methods=['POST'])
+@simulate_real_world_failures
 def deposit(account_number):
     """Deposit money to account."""
     data = request.get_json()
@@ -113,6 +148,7 @@ def deposit(account_number):
 
 
 @app.route('/health', methods=['GET'])
+@simulate_real_world_failures
 def health():
     """Health check endpoint."""
     return jsonify({"status": "healthy"}), 200

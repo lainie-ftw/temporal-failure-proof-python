@@ -1,8 +1,8 @@
 {
   "account_A": {
-    "balance": 1000.00
+    "balance": 1000.0
   },
   "account_B": {
-    "balance": 500.00
+    "balance": 500.0
   }
 }
