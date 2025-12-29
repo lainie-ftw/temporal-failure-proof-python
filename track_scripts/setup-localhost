@@ -1,0 +1,90 @@
+#!/bin/bash
+set -euxo pipefail
+
+
+
+# Install Code server
+curl -fsSL https://code-server.dev/install.sh | sh
+
+# Create Code Server startup script
+cat <<-EOF > /etc/systemd/system/code-server.service
+[Unit]
+Description=Code Server
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+ExecStart=/usr/bin/code-server --host 0.0.0.0 --port 8443 --cert --auth none /workspace
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Start Code Server
+systemctl enable code-server
+systemctl start code-server
+
+mkdir -p /root/.local/share/code-server/User
+
+cat > /root/.local/share/code-server/User/settings.json <<-EOF
+{
+    "workbench.colorTheme": "Default Dark+",
+    "workbench.startupEditor": "none",
+    "security.workspace.trust.enabled": false,
+}
+EOF
+
+# Install uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+export PATH="$HOME/.local/bin:$PATH"
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> /root/.bashrc
+source /root/.bashrc
+
+#!/bin/bash
+set -e
+
+apt-get update && apt-get install -y git
+
+# Temporal CLI
+rm -rf /root/.temporalio /usr/local/bin/temporal || true
+curl -sSf https://temporal.download/cli.sh | sh
+chmod +x /root/.temporalio/bin/temporal
+ln -sf /root/.temporalio/bin/temporal /usr/local/bin/temporal
+export PATH=$PATH:/root/.temporalio/bin:/usr/local/bin
+echo 'export PATH=$PATH:/root/.temporalio/bin:/usr/local/bin' >> /root/.bashrc
+. /root/.bashrc  # Compat for sh/bash
+
+CLI_VER=$(temporal --version 2>&1 | head -1)
+echo "Temporal CLI: $CLI_VER"
+
+if ! temporal --version >/dev/null 2>&1; then exit 1; fi
+
+# Clone repo
+git clone https://github.com/lainie-ftw/temporal-failure-proof-python.git /workspace/temporal-failure-proof-python
+
+# Server start with retry
+export TEMPORAL_ADDRESS=127.0.0.1:7233
+echo "export TEMPORAL_ADDRESS=$TEMPORAL_ADDRESS" >> /root/.bashrc
+. /root/.bashrc
+for i in {1..3}; do
+  echo "Server start attempt $i..."
+  nohup temporal server start-dev --ui-port 8080 --db-filename /workspace/clusterdata.db --ip 0.0.0.0 > /workspace/temporal.log 2>&1 &
+  sleep 30
+  echo "Health check attempt $i: $(temporal operator cluster health --address 127.0.0.1:7233 2>&1)"
+  if temporal operator cluster health --address 127.0.0.1:7233 | grep -q SERVING; then
+    echo "Server healthy on attempt $i!"
+    break
+  else
+    pkill -f "temporal server" || true
+    tail -n 10 /workspace/temporal.log
+  fi
+done
+
+
+echo "Setup complete! Venv: . /workspace/venv/bin/activate"
+
+
