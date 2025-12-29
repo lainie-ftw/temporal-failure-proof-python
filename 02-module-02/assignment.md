@@ -51,12 +51,12 @@ Exercise Steps
 
 ## Step 1: Money movement + external API: Happy path!
 
-1. In Terminal 1 [button label="Terminal 1" background="#444CE7"](tab-0), start the API server that interacts with bank accounts. For now, it's very reliable and won't generate errors.
+1. In [button label="Terminal 1" background="#444CE7"](tab-0), start the API server that interacts with bank accounts. For now, it's very reliable and won't generate errors.
 ```bash,run
 uv run account_api.py
 ```
 
-2. In Terminal 2 [button label="Terminal 2" background="#444CE7"](tab-1), start the money movement process.
+2. In [button label="Terminal 2" background="#444CE7"](tab-1), start the money movement process.
 This will execute a simplified money movement from one account to another, and write to a simple file-based database.
 ```bash,run
 uv run move_money.py
@@ -136,7 +136,7 @@ Now we're going to make our API behave a bit more like a real-world API, with ti
 
 1. In the code editor [button label="Code Editor" background="#444CE7"](tab-2), in account_api.py, change REAL_WORLD_MODE = True, then restart the API.
 
-2. Run money movement again -
+2. Run money movement again in [button label="Terminal 2" background="#444CE7"](tab-1)
 ```bash,run
 uv run move_money.py
 ```
