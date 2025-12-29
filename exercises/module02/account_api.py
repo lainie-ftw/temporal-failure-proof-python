@@ -155,7 +155,7 @@ def health():
 
 
 if __name__ == '__main__':
-    print("Starting Account API service on http://localhost:5000")
+    print("Starting Account API service on http://127.0.0.1:5000")
     print("Endpoints:")
     print("  GET  /accounts/<account_number>")
     print("  POST /accounts/<account_number>/withdraw")

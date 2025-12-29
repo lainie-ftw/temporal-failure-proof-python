@@ -29,6 +29,8 @@ class MoneyTransferResult:
     from_account: str
     to_account: str
     amount: float
+    from_account_starting_balance: float
+    to_account_starting_balance: float
     from_account_final_balance: float
     to_account_final_balance: float
     error_message: str = ""
@@ -129,6 +131,8 @@ class MoneyTransferWorkflow:
             from_account=input.from_account,
             to_account=input.to_account,
             amount=input.amount,
+            from_account_starting_balance=from_balance_result.balance,
+            to_account_starting_balance=to_balance_result.balance,
             from_account_final_balance=final_from_balance.balance,
             to_account_final_balance=final_to_balance.balance,
         )

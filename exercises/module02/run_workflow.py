@@ -9,7 +9,7 @@ from activities import check_balance, withdraw, deposit
 from workflow import MoneyTransferWorkflow, MoneyTransferInput
 
 # Account API base URL
-API_BASE_URL = "http://localhost:5000"
+API_BASE_URL = "http://127.0.0.1:5000"
 
 
 async def main():
@@ -103,6 +103,9 @@ async def main():
         print(f"  From Account: {result.from_account}")
         print(f"  To Account: {result.to_account}")
         print(f"  Amount Transferred: ${result.amount:.2f}")
+        print(f"\nStarting Balances:")
+        print(f"  {result.from_account}: ${result.from_account_starting_balance:.2f}")
+        print(f"  {result.to_account}: ${result.to_account_starting_balance:.2f}")
         print(f"\nFinal Balances:")
         print(f"  {result.from_account}: ${result.from_account_final_balance:.2f}")
         print(f"  {result.to_account}: ${result.to_account_final_balance:.2f}")
