@@ -1,10 +1,14 @@
 import asyncio
+import logging
 
 from temporalio.client import Client
 from temporalio.worker import Worker
 
 from activities import check_balance, withdraw, deposit
 from workflow import MoneyTransferWorkflow
+
+# Configure logging to show workflow and activity execution details
+logging.basicConfig(level=logging.INFO)
 
 
 async def main():
