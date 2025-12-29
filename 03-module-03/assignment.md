@@ -4,21 +4,25 @@ id: uuxemlx82xa0
 type: challenge
 title: 'Module 3: Exploring Failure-Proof Downstream Systems'
 tabs:
-- title: Terminal 1
+- id: mxyzus22wk72
+  title: Terminal 1
   type: terminal
   hostname: workshop-host
   workdir: /workspace/temporal-failure-proof-python/exercises/module03
-- title: Money Transfer UI
+- id: 6ybiuzwvxyft
+  title: Money Transfer UI
   type: service
   hostname: workshop-host
   path: /
   port: 5001
-- title: VS Code
+- id: o6wapk8vtrfa
+  title: VS Code
   type: service
   hostname: workshop-host
   path: /
   port: 8443
-- title: Temporal UI
+- id: mecu4v6zqf0b
+  title: Temporal UI
   type: service
   hostname: workshop-host
   path: /
