@@ -18,7 +18,7 @@ tabs:
   title: VS Code
   type: service
   hostname: workshop-host
-  path: /workspace/temporal-failure-proof-python/exercises/module02
+  path: /
   port: 8443
 - id: yx9sls10q4nb
   title: Temporal UI
