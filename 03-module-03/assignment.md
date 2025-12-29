@@ -62,6 +62,8 @@ Exercise Steps
 ./start_services.sh
 ```
 
+The output of this script will show the Workflow and Activity logger statements as you start money transfer Workflows.
+
 Feel free to take a look at the new API in the [button label="Code Editor" background="#444CE7"](tab-2) in the exercises/module03 folder!
 
 ## Step 2: REAL WORLD MODE!
