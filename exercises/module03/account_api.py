@@ -60,7 +60,7 @@ def write_accounts(accounts):
 
 
 @app.route('/accounts/<account_number>', methods=['GET'])
-@simulate_real_world_failures
+# @simulate_real_world_failures - removing this for module 3 or the UI is basically unusable
 def get_account(account_number):
     """Get account balance."""
     accounts = read_accounts()
