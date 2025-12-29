@@ -18,6 +18,7 @@ cd "$SCRIPT_DIR"
 
 # PID tracking
 ACCOUNT_API_PID=""
+MONEY_TRANSFER_PID=""
 WORKER_PID=""
 
 # Cleanup function
@@ -28,6 +29,11 @@ cleanup() {
     if [ ! -z "$ACCOUNT_API_PID" ]; then
         echo -e "  Stopping Account API (PID: $ACCOUNT_API_PID)..."
         kill $ACCOUNT_API_PID 2>/dev/null
+    fi
+    
+    if [ ! -z "$MONEY_TRANSFER_PID" ]; then
+        echo -e "  Stopping Money Transfer API (PID: $MONEY_TRANSFER_PID)..."
+        kill $MONEY_TRANSFER_PID 2>/dev/null
     fi
     
     if [ ! -z "$WORKER_PID" ]; then
@@ -80,25 +86,24 @@ else
     exit 1
 fi
 
-# Start Worker
-echo -e "${BLUE}[2/3]${NC} Starting Temporal Worker..."
-uv run python worker.py > worker.log 2>&1 &
-WORKER_PID=$!
+# Start Money Transfer API (in background)
+echo -e "${BLUE}[2/3]${NC} Starting Money Transfer API on port 5001..."
+uv run python money_transfer_api.py > money_transfer_api.log 2>&1 &
+MONEY_TRANSFER_PID=$!
 sleep 2
 
-# Check if Worker started successfully
-if kill -0 $WORKER_PID 2>/dev/null; then
-    echo -e "${GREEN}✓ Worker started (PID: $WORKER_PID)${NC}"
+# Check if Money Transfer API started successfully
+if kill -0 $MONEY_TRANSFER_PID 2>/dev/null; then
+    echo -e "${GREEN}✓ Money Transfer API started (PID: $MONEY_TRANSFER_PID)${NC}"
 else
-    echo -e "${RED}✗ Failed to start Worker${NC}"
-    echo -e "  Check worker.log for errors"
-    echo -e "  ${YELLOW}Note: Temporal server must be running on localhost:7233${NC}"
+    echo -e "${RED}✗ Failed to start Money Transfer API${NC}"
+    echo -e "  Check money_transfer_api.log for errors"
     cleanup
     exit 1
 fi
 
-# Start Money Transfer API (in foreground)
-echo -e "${BLUE}[3/3]${NC} Starting Money Transfer API on port 5001..."
+# Start Worker (in foreground)
+echo -e "${BLUE}[3/3]${NC} Starting Temporal Worker..."
 echo ""
 echo -e "${GREEN}================================================${NC}"
 echo -e "${GREEN}✓ All services started successfully!${NC}"
@@ -113,15 +118,15 @@ echo -e "   • Run: ${YELLOW}temporal server start-dev${NC}"
 echo ""
 echo -e "${BLUE}📝 Service logs:${NC}"
 echo -e "   • Account API: account_api.log"
-echo -e "   • Worker: worker.log"
-echo -e "   • Money Transfer API: output below"
+echo -e "   • Money Transfer API: money_transfer_api.log"
+echo -e "   • Worker: output below"
 echo ""
 echo -e "${YELLOW}Press Ctrl+C to stop all services${NC}"
 echo -e "${GREEN}================================================${NC}"
 echo ""
 
-# Run Money Transfer API in foreground (this will show logs)
-uv run python money_transfer_api.py
+# Run Worker in foreground (this will show logs)
+uv run python worker.py
 
-# If Money Transfer API exits, cleanup
+# If Worker exits, cleanup
 cleanup
