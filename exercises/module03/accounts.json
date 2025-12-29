@@ -4,5 +4,29 @@
   },
   "account_B": {
     "balance": 500.0
+  },
+  "account_C": {
+    "balance": 750.0
+  },
+  "account_D": {
+    "balance": 1200.0
+  },
+  "account_E": {
+    "balance": 300.0
+  },
+  "account_F": {
+    "balance": 900.0
+  },
+  "account_G": {
+    "balance": 600.0
+  },
+  "account_H": {
+    "balance": 1500.0
+  },
+  "account_I": {
+    "balance": 400.0
+  },
+  "account_J": {
+    "balance": 800.0
   }
 }
