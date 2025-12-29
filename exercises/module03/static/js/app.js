@@ -287,10 +287,6 @@ function formatWorkflowResult(result, status) {
 
 // Handle database reset
 async function handleResetDatabase() {
-    if (!confirm('Are you sure you want to reset the database? This will restore all accounts to their initial balances.')) {
-        return;
-    }
-    
     try {
         const response = await fetch('/api/reset', {
             method: 'POST'
