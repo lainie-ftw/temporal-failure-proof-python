@@ -35,6 +35,41 @@
         </div>
 
         <div class="main-content">
+            <div class="left-column">
+                <!-- Transfer Form Section -->
+                <section class="card transfer-section">
+                    <h2>💸 Start New Transfer</h2>
+                    <form id="transferForm">
+                        <div class="form-group">
+                            <label for="fromAccount">From Account:</label>
+                            <select id="fromAccount" required>
+                                <option value="">Select account...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="toAccount">To Account:</label>
+                            <select id="toAccount" required>
+                                <option value="">Select account...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="amount">Amount ($):</label>
+                            <input type="number" id="amount" step="0.01" min="0.01" placeholder="100.00" required />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Start Transfer</button>
+                    </form>
+                    <div id="transferMessage" class="message"></div>
+                </section>
+
+                <!-- Active Workflows Section -->
+                <section class="card workflows-section">
+                    <h2>⚡ Active Workflows</h2>
+                    <div id="activeWorkflowsList" class="workflows-list">
+                        <div class="empty-state">No active workflows</div>
+                    </div>
+                </section>
+            </div>
+
             <!-- Accounts Section -->
             <section class="card accounts-section">
                 <h2>📊 Account Balances</h2>
@@ -42,47 +77,8 @@
                     <div class="loading">Loading accounts...</div>
                 </div>
             </section>
-
-            <!-- Transfer Form Section -->
-            <section class="card transfer-section">
-                <h2>💸 Start New Transfer</h2>
-                <form id="transferForm">
-                    <div class="form-group">
-                        <label for="fromAccount">From Account:</label>
-                        <select id="fromAccount" required>
-                            <option value="">Select account...</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="toAccount">To Account:</label>
-                        <select id="toAccount" required>
-                            <option value="">Select account...</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="amount">Amount ($):</label>
-                        <input type="number" id="amount" step="0.01" min="0.01" placeholder="100.00" required />
-                    </div>
-                    <button type="submit" class="btn btn-primary">Start Transfer</button>
-                </form>
-                <div id="transferMessage" class="message"></div>
-            </section>
         </div>
 
-        <!-- Active Workflows Section -->
-        <section class="card workflows-section">
-            <h2>⚡ Active Workflows</h2>
-            <div id="activeWorkflowsList" class="workflows-list">
-                <div class="empty-state">No active workflows</div>
-            </div>
-        </section>
-
-        <!-- Account History Section (Hidden by default) -->
-        <section id="accountHistorySection" class="card account-history-section" style="display: none;">
-            <div id="accountHistoryContent">
-                <!-- Account history will be dynamically inserted here -->
-            </div>
-        </section>
 
         <!-- Workflow History Section -->
         <section class="card history-section">
