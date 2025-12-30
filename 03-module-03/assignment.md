@@ -57,7 +57,10 @@ Exercise Steps
 
 ## Step 1: Setup
 
-1. In [button label="Terminal 1" background="#444CE7"](tab-0), run the included script that will start three things: 1) the `account_api` we used before, 2) the Temporal worker we used before, and 3) a new API called `money_transfer_api` that helps to facilitate communication between a new UI and money transfer actions - which are in this case Temporal Workflow actions.
+In [button label="Terminal 1" background="#444CE7"](tab-0), run the included script that will start three things:
+1. the `account_api` we used before
+2. the Temporal worker we used before
+3. a new API called `money_transfer_api` that helps to facilitate communication between a new UI and money transfer actions - which are, in this case, Temporal Workflow actions.
 ```bash,run
 ./start_services.sh
 ```
@@ -78,10 +81,12 @@ Take a look at the workflows in the [button label="Temporal UI" background="#444
 **TODO: add some words re: look at the cool workflows on the bottom! (screenshot of UI, talk about queries)**
 You can see in the Workflow code in the editor [button label="Code Editor" background="#444CE7"](tab-2)  **TODO: add words re: how the query is implemented**
 
+**TODO: add some words re: the custom search attributes and how the account view works**
+
 ## Step 4: Check out the workflow in the Temporal UI
 Now let's examine the Workflow's state as it progressed.
 
-1. Click the **[button label="Temporal UI" background="#444CE7"](tab-3) Service tab** in your Instruqt envrionment.
+1. Click the [button label="Temporal UI" background="#444CE7"](tab-3).
 2. The **Workflows** pane will display all recent executions
 3. Compare the workflows in the Temporal UI with what's shown in the Money Transfer UI
 
