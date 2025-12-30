@@ -37,7 +37,7 @@ class MoneyTransferResult:
 
 
 @workflow.defn
-class MoneyTransferWorkflow:
+class MoneyTransferWorkflow: #todo rename to MoneyTransferWorkflowModule2
     """
     Workflow for transferring money between accounts.
     
