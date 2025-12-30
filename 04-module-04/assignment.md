@@ -12,7 +12,7 @@ enhanced_loading: null
 
 
 # Overview
-This module gives you hands-on experience fixing bugs in Temporal code. 
+This module gives you hands-on experience fixing bugs in Temporal code.
 
 Nobody is perfect: sometimes we make mistakes in our code. Temporal can't keep your code from failing or crashing, but it _can_ make it easier to deal with when this happens.
 
@@ -63,10 +63,10 @@ Check out the code Jerry added after checking account balance.
 
 </details>
 
-<br /> 
-Fix Jerry's code, then restart the worker process. 
+<br />
+Fix Jerry's code, then restart the worker process.
 
-As we saw when we crashed things in Module 1, Temporal Workflows will pick back up where they left off. 
+As we saw when we crashed things in Module 1, Temporal Workflows will pick back up where they left off.
 Workflow task failures are retried forever until the Workflow succeeds or is ended.
 <br /><br />
 Now that the Workflows can proceed, it will finish the Workflow task and continue.
@@ -85,21 +85,21 @@ Check out the code Jerry changed in the `withdraw()` Activity.
 <br />
 Fix the Activity, restart the worker process, and see that Temporal picks up the latest Activity code and succeeds.
 <br /><br />
-Nice work! 
+Nice work!
 
 ## Step 4: Details of Temporal Bug Handling
 ### Bugs in Workflow Code
-Temporal keeps process state automatically, and always retries Workflow Task Failures. 
+Temporal keeps process state automatically, and always retries Workflow Task Failures.
 If all Workflows are stuck on a bug step, fixing these Workflow failure can be as simple as fixing the code and redeploying it.
 
 ### Bugs in Activity Code
-Temporal by default retries Activities indefinitely. If you have an Activity that is broken and keeps retrying, you can see the failure info in the UI, including the line of code, fix the code, add tests and pass tests, and then deploy the fixed code. Temporal will then execute the Activities. It might be a while - usually retry backoff settings are relevant here. 
+Temporal by default retries Activities indefinitely. If you have an Activity that is broken and keeps retrying, you can see the failure info in the UI, including the line of code, fix the code, add tests and pass tests, and then deploy the fixed code. Temporal will then execute the Activities. It might be a while - usually retry backoff settings are relevant here.
 
 This auto-bug-fixing behavior is one reason to keep unlimited retries defaults for your Activities.
 If your business process requires succeeding or failing in a limited time, or you don't want to call an expensive API many many times, or you want to fail your processes for other reasons after a number of calls, it's fine to limit retries - but you lose this neat behavior.
 
 ## Step 5: Wrap-up and Questions
-Temporal makes handling bugs simpler and clearer. Temporal applications keep state automatically, and automatically try to progress once to completion. 
+Temporal makes handling bugs simpler and clearer. Temporal applications keep state automatically, and automatically try to progress once to completion.
 <br /><br />
 In our experience with non-Temporal systems, this has gone very different. When there's a transaction- or process-breaking bug, it can cause things to stop in the middle with no possibility of restart. So in addition to finding and fixing the code, we have had to restart processes from the beginning, get data in sync in multiple different queues and databases, and clean up duplicate entries. Yikes!
 
@@ -112,8 +112,8 @@ In a later section, we'll take a look at the unique ways we can test Temporal co
 ### Questions for thought:
 - What happens when there is a bug in Workflow code? How is that different than non-Temporal Code?
 - What happens when you fix a bug in Workflow code?
-- What happens when there is a bug in Activity code? How is that different than non-Temporal Code? What happens when you fix Activity Bugs? 
-- Think back to some bugs you've fixed. Did they cause any problems beyond application errors? 
+- What happens when there is a bug in Activity code? How is that different than non-Temporal Code? What happens when you fix Activity Bugs?
+- Think back to some bugs you've fixed. Did they cause any problems beyond application errors?
 - How would the experience be different if they were bugs in Workflow code? Activity Code?
 
 ### Further Learning for More Complex Errors

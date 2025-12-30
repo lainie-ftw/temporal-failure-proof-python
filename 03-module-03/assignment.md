@@ -2,7 +2,7 @@
 slug: module-03
 id: uuxemlx82xa0
 type: challenge
-title: 'Module 3: Exploring Failure-Proof Downstream Systems'
+title: 'Module 3: Exploring Failure-Proof User Experiences'
 tabs:
 - id: mxyzus22wk72
   title: Terminal 1
