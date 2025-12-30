@@ -49,7 +49,7 @@ Go to the Temporal UI and see that the workflow has failed. Explore the exceptio
 Look at the Workflow code, can you find the problem?
 Fix Jerry's code, then restart the worker process. 
 
-As we saw when we crshed things in Module 1, Temporal will pick back up where it left off. 
+As we saw when we crashed things in Module 1, Temporal will pick back up where it left off. 
 Now that it can proceed, it will finish the Workflow task and continue.
 
 ### Notice an Activity Failed:
@@ -72,5 +72,5 @@ Temporal by default retries Activities indefinitely. If you have an Activity tha
 This auto-bug-fixing behavior is one reason to keep unlimited retries defaults for your Activities.
 If your business process requires succeeding or failing in a limited time, or you don't want to call an expensive API many many times, or you want to fail your processes for other reasons after a number of calls, it's fine to limit retries - but you lose this neat behavior.
 
-It might be useful to mention Workflow Reset as well - you can "time travel" your workflows back to a certin step using (Workflow Reset)[https://patford12.medium.com/batch-reset-with-temporal-f895a8b8408b] - so if they've failed out their Activity Retry policy and failed the Workflow
+It might be useful to mention Workflow Reset as well - you can "time travel" your workflows back to a certain step using [Workflow Reset](https://patford12.medium.com/batch-reset-with-temporal-f895a8b8408b) - so if they've failed out their Activity Retry policy and failed the Workflow
 
