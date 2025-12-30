@@ -146,10 +146,10 @@ Feel free to run this multiple times as REAL_WORLD_MODE only *sometimes* fails..
 ```bash,run
 uv run move_money_retries.py
 ```
-Feel free to run this multiple times as REAL_WORLD_MODE only *sometimes* fails...
-<br />
-For extra chaos, kill and restart a money movement while it's retrying, and note that even if it didn't partially move money (withdraw but no deposit), it restarts its retries from the beginning.
-<br />
+Again, try running this multiple times as REAL_WORLD_MODE only *sometimes* fails...
+<br /><br />
+For extra chaos, kill and restart a money movement while it's retrying, and note that even if it didn't partially move money (withdraw but no deposit), it restarts its retries from the beginning. There's potentially many bad results here if you combine failure-prone APIs with non-durable code.
+<br /><br />
 We can see our error handling code is handling most of the errors, but we have to remember to use it for every external call, and if we need to add new features like errors we don't want to retry, we have to add that in and test things again.
 
 <br/>
