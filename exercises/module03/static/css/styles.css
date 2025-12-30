@@ -466,6 +466,176 @@ footer {
     opacity: 0.9;
 }
 
+/* Account History Styles */
+.account-item {
+    flex-direction: column;
+    gap: 10px;
+    transition: all 0.3s;
+}
+
+.account-item.selected {
+    background: #e7f0ff;
+    border-left-color: #007bff;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
+}
+
+.account-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.btn-view-history {
+    padding: 8px 16px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    align-self: flex-end;
+}
+
+.btn-view-history:hover {
+    background: #5568d3;
+    transform: translateX(3px);
+}
+
+.account-history-section {
+    grid-column: 1 / -1;
+    margin-bottom: 20px;
+}
+
+.account-history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.account-history-header h3 {
+    font-size: 1.5rem;
+    color: #667eea;
+    margin: 0;
+}
+
+.account-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.summary-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+}
+
+.summary-label {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.summary-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.summary-value.positive {
+    color: #28a745;
+}
+
+.summary-value.negative {
+    color: #dc3545;
+}
+
+.account-history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.account-history-item {
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+    transition: all 0.3s;
+}
+
+.account-history-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateX(5px);
+}
+
+.account-history-item.sent {
+    border-left-color: #dc3545;
+}
+
+.account-history-item.received {
+    border-left-color: #28a745;
+}
+
+.history-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.direction-indicator {
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 6px 12px;
+    border-radius: 6px;
+}
+
+.account-history-item.sent .direction-indicator {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.account-history-item.received .direction-indicator {
+    background: #d4edda;
+    color: #155724;
+}
+
+.history-item-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.history-detail-row {
+    display: flex;
+    gap: 8px;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.history-detail-row strong {
+    min-width: 100px;
+    color: #333;
+}
+
+.history-detail-row code {
+    background: #e9ecef;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-family: 'Courier New', monospace;
+}
+
 @media (max-width: 768px) {
     .main-content {
         grid-template-columns: 1fr;
@@ -478,5 +648,15 @@ footer {
 
     .control-group {
         justify-content: center;
+    }
+    
+    .account-summary {
+        grid-template-columns: 1fr;
+    }
+    
+    .account-history-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
     }
 }

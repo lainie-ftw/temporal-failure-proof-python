@@ -38,16 +38,25 @@ cat > /root/.local/share/code-server/User/settings.json <<-EOF
 }
 EOF
 
+echo "Code server ready."
+
 # Install uv
 curl -LsSf https://astral.sh/uv/install.sh | sh
 export PATH="$HOME/.local/bin:$PATH"
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> /root/.bashrc
 source /root/.bashrc
 
+echo "UV installed."
+
 #!/bin/bash
 set -e
 
 apt-get update && apt-get install -y git
+
+# Clone repo
+git clone https://github.com/lainie-ftw/temporal-failure-proof-python.git /workspace/temporal-failure-proof-python
+
+echo "Updated + repo git cloned."
 
 # Temporal CLI
 rm -rf /root/.temporalio /usr/local/bin/temporal || true
@@ -62,9 +71,6 @@ CLI_VER=$(temporal --version 2>&1 | head -1)
 echo "Temporal CLI: $CLI_VER"
 
 if ! temporal --version >/dev/null 2>&1; then exit 1; fi
-
-# Clone repo
-git clone https://github.com/lainie-ftw/temporal-failure-proof-python.git /workspace/temporal-failure-proof-python
 
 # Server start with retry
 export TEMPORAL_ADDRESS=127.0.0.1:7233
@@ -84,7 +90,14 @@ for i in {1..3}; do
   fi
 done
 
+echo "Temporal server ready." 
 
-echo "Setup complete! Venv: . /workspace/venv/bin/activate"
+# Add custom search attributes for workshop
+temporal operator search-attribute create --name from_account --type Keyword --namespace default
+temporal operator search-attribute create --name to_account --type Keyword --namespace default
+
+echo "Custom search attributes added."
+
+echo "Setup complete!"
 
 

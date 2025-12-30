@@ -176,6 +176,76 @@ async def get_all_workflows_async():
     return workflows
 
 
+async def get_account_workflows_async(account_id):
+    """Get all workflows for a specific account using search attributes."""
+    workflows = []
+    try:
+        client = await get_temporal_client()
+        
+        # Query workflows where the account is sender OR receiver
+        query = f'from_account = "{account_id}" OR to_account = "{account_id}"'
+        
+        async for workflow_execution in client.list_workflows(query):
+            workflow_id = workflow_execution.id
+            
+            # Get workflow state using query
+            workflow_data = await get_workflow_state_async(workflow_id)
+            if workflow_data and workflow_data.get('input'):
+                # Add direction indicator for easier UI rendering
+                input_data = workflow_data['input']
+                if input_data.get('from_account') == account_id:
+                    workflow_data['direction'] = 'sent'
+                    workflow_data['counterparty'] = input_data.get('to_account')
+                else:
+                    workflow_data['direction'] = 'received'
+                    workflow_data['counterparty'] = input_data.get('from_account')
+                
+                workflows.append(workflow_data)
+        
+        # Sort by start time (most recent first)
+        workflows.sort(key=lambda w: w.get('start_time', 0), reverse=True)
+                
+    except Exception as e:
+        print(f"Error listing account workflows: {e}")
+    
+    return workflows
+
+
+def calculate_account_summary(account_id, workflows):
+    """Calculate summary statistics for an account's workflows."""
+    summary = {
+        'total_sent': 0.0,
+        'total_received': 0.0,
+        'net_change': 0.0,
+        'transaction_count': len(workflows),
+        'completed_count': 0,
+        'failed_count': 0,
+        'running_count': 0
+    }
+    
+    for workflow in workflows:
+        input_data = workflow.get('input', {})
+        amount = input_data.get('amount', 0)
+        status = workflow.get('status', '')
+        
+        # Count by status
+        if status == 'COMPLETED':
+            summary['completed_count'] += 1
+            # Only count amounts for completed workflows
+            if input_data.get('from_account') == account_id:
+                summary['total_sent'] += amount
+            else:
+                summary['total_received'] += amount
+        elif status == 'RUNNING':
+            summary['running_count'] += 1
+        else:
+            summary['failed_count'] += 1
+    
+    summary['net_change'] = summary['total_received'] - summary['total_sent']
+    
+    return summary
+
+
 # ============================================================================
 # Web UI Routes
 # ============================================================================
@@ -273,6 +343,26 @@ def get_workflow(workflow_id):
         return jsonify(workflow), 200
     except Exception as e:
         print(f"Error getting workflow: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/accounts/<account_id>/workflows', methods=['GET'])
+def get_account_workflows(account_id):
+    """Get all workflows for a specific account (as sender or receiver)."""
+    try:
+        # Get workflows using Temporal search attributes
+        workflows = run_async(get_account_workflows_async(account_id))
+        
+        # Calculate summary statistics
+        summary = calculate_account_summary(account_id, workflows)
+        
+        return jsonify({
+            "account_id": account_id,
+            "summary": summary,
+            "workflows": workflows
+        }), 200
+    except Exception as e:
+        print(f"Error getting account workflows: {e}")
         return jsonify({"error": str(e)}), 500
 
 

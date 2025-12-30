@@ -2,6 +2,7 @@
 let autoRefreshEnabled = true;
 let autoRefreshInterval = null;
 const REFRESH_INTERVAL = 200; // 200ms for faster updates
+let currentAccountView = null; // Track which account history is currently displayed
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
@@ -30,7 +31,11 @@ async function loadInitialData() {
 
 // Refresh all data
 async function refreshData() {
-    await loadAccounts();
+    // Don't refresh accounts list if we're viewing account history
+    // This prevents interference with the View History buttons
+    if (!currentAccountView) {
+        await loadAccounts();
+    }
     await loadWorkflows();
 }
 
@@ -60,9 +65,14 @@ function displayAccounts(accounts) {
     }
     
     accountsList.innerHTML = Object.entries(accounts).map(([accountId, accountData]) => `
-        <div class="account-item">
-            <span class="account-name">${accountId}</span>
-            <span class="account-balance">$${accountData.balance.toFixed(2)}</span>
+        <div class="account-item ${currentAccountView === accountId ? 'selected' : ''}">
+            <div class="account-info">
+                <span class="account-name">${accountId}</span>
+                <span class="account-balance">$${accountData.balance.toFixed(2)}</span>
+            </div>
+            <button class="btn-view-history" onclick="viewAccountHistory('${accountId}')">
+                View History →
+            </button>
         </div>
     `).join('');
 }
@@ -496,4 +506,142 @@ function clearHistory() {
     // This will be implemented on the server side
     // For now, just refresh to show the empty state
     document.getElementById('workflowHistory').innerHTML = '<div class="empty-state">No completed workflows</div>';
+}
+
+// ============================================================================
+// Account History Functions
+// ============================================================================
+
+// View account history
+async function viewAccountHistory(accountId) {
+    try {
+        // Set current account view
+        currentAccountView = accountId;
+        
+        // Update accounts display to show selected state
+        await loadAccounts();
+        
+        // Fetch account workflows
+        const response = await fetch(`/api/accounts/${accountId}/workflows`);
+        if (!response.ok) throw new Error('Failed to load account history');
+        
+        const data = await response.json();
+        
+        // Display the account history
+        displayAccountHistory(data);
+        
+        // Scroll to account history section
+        document.getElementById('accountHistorySection').scrollIntoView({ behavior: 'smooth' });
+        
+    } catch (error) {
+        console.error('Error loading account history:', error);
+        alert('Failed to load account history: ' + error.message);
+    }
+}
+
+// Display account history
+function displayAccountHistory(data) {
+    const historySection = document.getElementById('accountHistorySection');
+    const historyContent = document.getElementById('accountHistoryContent');
+    
+    // Show the section
+    historySection.style.display = 'block';
+    
+    const { account_id, summary, workflows } = data;
+    
+    // Build the history HTML
+    let html = `
+        <div class="account-history-header">
+            <h3>📊 Transaction History: ${account_id}</h3>
+            <button class="btn btn-secondary btn-sm" onclick="closeAccountHistory()">← Back to All Accounts</button>
+        </div>
+        
+        <div class="account-summary">
+            <div class="summary-card">
+                <span class="summary-label">Total Sent</span>
+                <span class="summary-value negative">$${summary.total_sent.toFixed(2)}</span>
+            </div>
+            <div class="summary-card">
+                <span class="summary-label">Total Received</span>
+                <span class="summary-value positive">$${summary.total_received.toFixed(2)}</span>
+            </div>
+            <div class="summary-card">
+                <span class="summary-label">Net Change</span>
+                <span class="summary-value ${summary.net_change >= 0 ? 'positive' : 'negative'}">
+                    ${summary.net_change >= 0 ? '+' : ''}$${summary.net_change.toFixed(2)}
+                </span>
+            </div>
+            <div class="summary-card">
+                <span class="summary-label">Total Transactions</span>
+                <span class="summary-value">${summary.transaction_count}</span>
+            </div>
+        </div>
+        
+        <div class="account-history-list">
+    `;
+    
+    if (workflows.length === 0) {
+        html += '<div class="empty-state">No transactions found for this account</div>';
+    } else {
+        html += workflows.map(workflow => {
+            const input = workflow.input || {};
+            const direction = workflow.direction;
+            const directionIcon = direction === 'sent' ? '↗️' : '↙️';
+            const directionClass = direction === 'sent' ? 'sent' : 'received';
+            const counterparty = workflow.counterparty || 'Unknown';
+            const amount = input.amount || 0;
+            const status = workflow.status;
+            const statusClass = status === 'COMPLETED' ? 'completed' : (status === 'RUNNING' ? 'running' : 'failed');
+            const statusIcon = status === 'COMPLETED' ? '✓' : (status === 'RUNNING' ? '🔄' : '✗');
+            
+            // Format timestamps
+            const startedAt = formatTimestamp(workflow.start_time);
+            const completedAt = formatTimestamp(workflow.close_time);
+            
+            return `
+                <div class="account-history-item ${directionClass} ${statusClass}">
+                    <div class="history-item-header">
+                        <span class="direction-indicator">${directionIcon} ${direction.toUpperCase()}</span>
+                        <span class="workflow-status ${statusClass}">${statusIcon} ${status}</span>
+                    </div>
+                    <div class="history-item-details">
+                        <div class="history-detail-row">
+                            <strong>${direction === 'sent' ? 'To' : 'From'}:</strong> ${counterparty}
+                        </div>
+                        <div class="history-detail-row">
+                            <strong>Amount:</strong> 
+                            <span class="${direction === 'sent' ? 'negative' : 'positive'}">
+                                ${direction === 'sent' ? '-' : '+'}$${amount.toFixed(2)}
+                            </span>
+                        </div>
+                        <div class="history-detail-row">
+                            <strong>Workflow ID:</strong> <code>${workflow.workflow_id}</code>
+                        </div>
+                        <div class="history-detail-row">
+                            <strong>Started:</strong> ${startedAt}
+                        </div>
+                        ${status !== 'RUNNING' ? `
+                        <div class="history-detail-row">
+                            <strong>Completed:</strong> ${completedAt}
+                        </div>
+                        ` : ''}
+                    </div>
+                    ${status === 'RUNNING' ? renderStepProgress(workflow) : ''}
+                </div>
+            `;
+        }).join('');
+    }
+    
+    html += '</div>';
+    
+    historyContent.innerHTML = html;
+}
+
+// Close account history view
+function closeAccountHistory() {
+    currentAccountView = null;
+    document.getElementById('accountHistorySection').style.display = 'none';
+    
+    // Update accounts display to clear selected state
+    loadAccounts();
 }

@@ -102,6 +102,12 @@ class MoneyTransferWorkflow:
         # Store input for query access
         self._input = input
         
+        # Set custom search attributes for from_account and to_account
+        workflow.upsert_search_attributes({
+            "from_account": [input.from_account],
+            "to_account": [input.to_account]
+        })
+        
         workflow.logger.info(
             f"Starting money transfer: ${input.amount:.2f} from "
             f"{input.from_account} to {input.to_account}"
