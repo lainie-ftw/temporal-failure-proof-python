@@ -10,7 +10,7 @@ from functools import wraps
 app = Flask(__name__)
 
 # Real world mode - things randomly fail! 
-REAL_WORLD_MODE = False
+REAL_WORLD_MODE = True
 
 # Path to our fake database
 DB_FILE = Path(__file__).parent / "accounts.json"

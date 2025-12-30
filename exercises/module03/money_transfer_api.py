@@ -105,7 +105,10 @@ async def get_workflow_state_async(workflow_id):
             'start_time': desc.start_time.timestamp() if desc.start_time else None,
             'close_time': desc.close_time.timestamp() if desc.close_time else None,
             'input': None,
-            'result': None
+            'result': None,
+            'steps': None,
+            'current_step': None,
+            'completed_steps': []
         }
         
         # Query workflow state if it's still running or just completed
@@ -114,6 +117,10 @@ async def get_workflow_state_async(workflow_id):
                 state = await handle.query(MoneyTransferWorkflow.get_state)
                 workflow_data['input'] = state.get('input', {})
                 workflow_data['result'] = state.get('result')
+                # Include step progress data
+                workflow_data['steps'] = state.get('steps', [])
+                workflow_data['current_step'] = state.get('current_step')
+                workflow_data['completed_steps'] = state.get('completed_steps', [])
             except Exception as e:
                 print(f"Error querying workflow {workflow_id}: {e}")
                 # Fallback: try to get result if completed
@@ -187,13 +194,11 @@ def index():
 def get_accounts():
     """Get all accounts from the Account API."""
     try:
-        response = requests.get(f"{ACCOUNT_API_URL}/accounts/account_A")
-        if response.status_code != 200:
-            return jsonify({"error": "Failed to connect to Account API"}), 503
-        
-        # Get both accounts
+        # Get all accounts (A through J)
         accounts = {}
-        for account_id in ['account_A', 'account_B']:
+        account_ids = [f'account_{letter}' for letter in 'ABCDEFGHIJ']
+        
+        for account_id in account_ids:
             try:
                 resp = requests.get(f"{ACCOUNT_API_URL}/accounts/{account_id}")
                 if resp.status_code == 200:
@@ -201,6 +206,9 @@ def get_accounts():
                     accounts[account_id] = {"balance": data['balance']}
             except:
                 pass
+        
+        if not accounts:
+            return jsonify({"error": "Failed to connect to Account API"}), 503
         
         return jsonify(accounts), 200
     except Exception as e:

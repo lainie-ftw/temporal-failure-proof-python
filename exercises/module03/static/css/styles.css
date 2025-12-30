@@ -195,13 +195,23 @@ header h1 {
 .btn-primary {
     background: #667eea;
     color: white;
-    width: 100%;
 }
 
 .btn-primary:hover {
     background: #5568d3;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+}
+
+.btn-primary:disabled {
+    background: #a8b5f0;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Full width for form buttons */
+.transfer-section .btn-primary {
+    width: 100%;
 }
 
 .btn-secondary {
@@ -328,6 +338,106 @@ header h1 {
     background: white;
     border-radius: 6px;
     font-size: 0.85rem;
+}
+
+/* Step Progress Styles */
+.step-progress {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 12px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-width: 80px;
+}
+
+.step-icon {
+    font-size: 1.2rem;
+    font-weight: 700;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-bottom: 4px;
+}
+
+.step.completed .step-icon {
+    background: #d4edda;
+    color: #28a745;
+}
+
+.step.current .step-icon {
+    background: #fff3cd;
+    color: #856404;
+    animation: pulse 1.5s infinite;
+}
+
+.step.pending .step-icon {
+    background: #e9ecef;
+    color: #adb5bd;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+.step-label {
+    font-size: 0.75rem;
+    color: #666;
+    max-width: 100px;
+    line-height: 1.2;
+}
+
+.step.completed .step-label {
+    color: #28a745;
+    font-weight: 500;
+}
+
+.step.current .step-label {
+    color: #856404;
+    font-weight: 600;
+}
+
+.step-arrow {
+    color: #ccc;
+    font-size: 1.2rem;
+    font-weight: 300;
+    margin: 0 4px;
+}
+
+/* Workflow timestamps */
+.workflow-timestamps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed #e0e0e0;
+}
+
+.workflow-timestamps strong {
+    color: #555;
 }
 
 .history-controls {

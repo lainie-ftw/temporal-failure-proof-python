@@ -1,7 +1,7 @@
 // State management
 let autoRefreshEnabled = true;
 let autoRefreshInterval = null;
-const REFRESH_INTERVAL = 3000; // 3 seconds
+const REFRESH_INTERVAL = 200; // 200ms for faster updates
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function initializeEventListeners() {
     document.getElementById('transferForm').addEventListener('submit', handleTransferSubmit);
     document.getElementById('realWorldMode').addEventListener('change', handleRealWorldModeToggle);
+    document.getElementById('startBatchBtn').addEventListener('click', handleStartDailyBatch);
     document.getElementById('refreshBtn').addEventListener('click', refreshData);
     document.getElementById('resetDbBtn').addEventListener('click', handleResetDatabase);
     document.getElementById('autoRefresh').addEventListener('change', handleAutoRefreshToggle);
@@ -70,6 +71,11 @@ function displayAccounts(accounts) {
 function populateAccountSelects(accounts) {
     const fromSelect = document.getElementById('fromAccount');
     const toSelect = document.getElementById('toAccount');
+    
+    // Skip update if either dropdown is currently focused (user is selecting)
+    if (document.activeElement === fromSelect || document.activeElement === toSelect) {
+        return;
+    }
     
     // Save current selections
     const currentFromValue = fromSelect.value;
@@ -204,6 +210,53 @@ function displayWorkflows(workflows) {
     displayWorkflowHistory(completedWorkflows);
 }
 
+// Get human-readable step label with account info
+function getStepLabel(step, input) {
+    const fromAccount = input?.from_account || '...';
+    const toAccount = input?.to_account || '...';
+    
+    switch (step) {
+        case 'check_balance_from':
+            return `Check Balance (${fromAccount})`;
+        case 'check_balance_to':
+            return `Check Balance (${toAccount})`;
+        case 'withdraw':
+            return 'Withdraw';
+        case 'deposit':
+            return 'Deposit';
+        default:
+            return step;
+    }
+}
+
+// Render step progress visual for a workflow
+function renderStepProgress(workflow, allCompleted = false) {
+    const steps = workflow.steps || ['check_balance_from', 'check_balance_to', 'withdraw', 'deposit'];
+    const completedSteps = allCompleted ? steps : (workflow.completed_steps || []);
+    const currentStep = workflow.current_step;
+    const input = workflow.input || {};
+    
+    return `
+        <div class="step-progress">
+            ${steps.map((step, index) => {
+                const isCompleted = completedSteps.includes(step);
+                const isCurrent = step === currentStep && !isCompleted;
+                const stepClass = isCompleted ? 'completed' : (isCurrent ? 'current' : 'pending');
+                const icon = isCompleted ? '✓' : (isCurrent ? '●' : '○');
+                const label = getStepLabel(step, input);
+                
+                return `
+                    <div class="step ${stepClass}">
+                        <span class="step-icon">${icon}</span>
+                        <span class="step-label">${label}</span>
+                    </div>
+                    ${index < steps.length - 1 ? '<span class="step-arrow">→</span>' : ''}
+                `;
+            }).join('')}
+        </div>
+    `;
+}
+
 // Display active workflows
 function displayActiveWorkflows(workflows) {
     const activeList = document.getElementById('activeWorkflowsList');
@@ -213,19 +266,49 @@ function displayActiveWorkflows(workflows) {
         return;
     }
     
-    activeList.innerHTML = workflows.map(workflow => `
-        <div class="workflow-item">
-            <div class="workflow-header">
-                <span class="workflow-id">🔄 ${workflow.workflow_id}</span>
-                <span class="workflow-status running">RUNNING</span>
+    activeList.innerHTML = workflows.map(workflow => {
+        const input = workflow.input || {};
+        const fromAccount = input.from_account || 'Unknown';
+        const toAccount = input.to_account || 'Unknown';
+        const amount = input.amount || 0;
+        
+        return `
+            <div class="workflow-item">
+                <div class="workflow-header">
+                    <span class="workflow-id">🔄 ${workflow.workflow_id}</span>
+                    <span class="workflow-status running">RUNNING</span>
+                </div>
+                <div class="workflow-details">
+                    <strong>From:</strong> ${fromAccount} →
+                    <strong>To:</strong> ${toAccount} |
+                    <strong>Amount:</strong> $${amount.toFixed(2)}
+                </div>
+                ${renderStepProgress(workflow)}
             </div>
-            <div class="workflow-details">
-                <strong>From:</strong> ${workflow.input.from_account} →
-                <strong>To:</strong> ${workflow.input.to_account} |
-                <strong>Amount:</strong> $${workflow.input.amount.toFixed(2)}
-            </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
+}
+
+// Format timestamp to human-readable date/time
+function formatTimestamp(timestamp) {
+    if (!timestamp) return 'N/A';
+    
+    // Handle both Unix timestamps (seconds) and ISO strings
+    const date = typeof timestamp === 'number' 
+        ? new Date(timestamp * 1000)  // Unix timestamp in seconds
+        : new Date(timestamp);
+    
+    if (isNaN(date.getTime())) return 'N/A';
+    
+    return date.toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true
+    });
 }
 
 // Display workflow history
@@ -245,6 +328,10 @@ function displayWorkflowHistory(workflows) {
         const statusText = workflow.status === 'COMPLETED' ? 'COMPLETED' : 'FAILED';
         const icon = workflow.status === 'COMPLETED' ? '✓' : '✗';
         
+        // Format timestamps
+        const startedAt = formatTimestamp(workflow.start_time);
+        const completedAt = formatTimestamp(workflow.close_time);
+        
         return `
             <div class="workflow-item ${statusClass}">
                 <div class="workflow-header">
@@ -256,6 +343,11 @@ function displayWorkflowHistory(workflows) {
                     <strong>To:</strong> ${workflow.input.to_account} |
                     <strong>Amount:</strong> $${workflow.input.amount.toFixed(2)}
                 </div>
+                <div class="workflow-timestamps">
+                    <span><strong>Started:</strong> ${startedAt}</span>
+                    <span><strong>Completed:</strong> ${completedAt}</span>
+                </div>
+                ${renderStepProgress(workflow, workflow.status === 'COMPLETED')}
                 ${workflow.result ? formatWorkflowResult(workflow.result, workflow.status) : ''}
             </div>
         `;
@@ -299,6 +391,67 @@ async function handleResetDatabase() {
     } catch (error) {
         console.error('Error resetting database:', error);
         alert('Failed to reset database: ' + error.message);
+    }
+}
+
+// Handle Start Daily Batch - starts 5 transfers of $100 each
+async function handleStartDailyBatch() {
+    const batchTransfers = [
+        { from_account: 'account_A', to_account: 'account_F', amount: 100 },
+        { from_account: 'account_B', to_account: 'account_G', amount: 100 },
+        { from_account: 'account_C', to_account: 'account_H', amount: 100 },
+        { from_account: 'account_D', to_account: 'account_I', amount: 100 },
+        { from_account: 'account_E', to_account: 'account_J', amount: 100 }
+    ];
+    
+    const btn = document.getElementById('startBatchBtn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Starting batch...';
+    
+    let successCount = 0;
+    let failCount = 0;
+    const workflowIds = [];
+    
+    try {
+        for (const transfer of batchTransfers) {
+            try {
+                const response = await fetch('/api/transfer', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(transfer)
+                });
+                
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Transfer failed');
+                }
+                
+                const result = await response.json();
+                workflowIds.push(result.workflow_id);
+                successCount++;
+            } catch (error) {
+                console.error(`Error starting transfer ${transfer.from_account} -> ${transfer.to_account}:`, error);
+                failCount++;
+            }
+        }
+        
+        // Show results
+        if (successCount === batchTransfers.length) {
+            showMessage('success', `Daily batch started! ${successCount} workflows initiated.`);
+        } else if (successCount > 0) {
+            showMessage('error', `Batch partially started: ${successCount} succeeded, ${failCount} failed.`);
+        } else {
+            showMessage('error', 'Failed to start daily batch. Check if services are running.');
+        }
+        
+        // Refresh workflows to show the new batch
+        await loadWorkflows();
+        
+    } finally {
+        btn.disabled = false;
+        btn.textContent = '🚀 Start Daily Batch';
     }
 }
 
