@@ -3,7 +3,7 @@ id: rtzqx8gxhoke
 revision: 1
 title: 'Exploring Temporal: Failure-Proofing Your Python Code'
 teaser: Use Temporal to make code failure-proof
-description: asdf
+description: Temporal Python hands-on
 icon: https://play.instruqt.com/assets/tracks/rtzqx8gxhoke/e3fd7d4e17d4ae47a315ba20ddbb8460/assets/Temporal_Symbol_dark_1_2x.png
 tags: []
 owner: temporal
@@ -19,8 +19,5 @@ lab_config:
   hideStopButton: false
   feedback_recap_enabled: true
   feedback_tab_enabled: false
-  override_challenge_layout: false
-  default_layout: AssignmentRight
-  default_layout_sidebar_size: 33
   loadingMessages: true
 enhanced_loading: null
