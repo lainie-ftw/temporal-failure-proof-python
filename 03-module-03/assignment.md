@@ -74,6 +74,8 @@ Check out the [button label="Money Transfer UI" background="#444CE7"](tab-1), an
 2. Turn on Real World Mode, and move some money between accounts. What do you notice as the end user?
 3. Start the daily processing by hitting the **Start Daily Batch 🚀** button. This will execute multiple transfers.
 
+Be sure to check out the Account History section and the Transaction Progress section. These are using Temporal searches and queries to get the data in the UI. Details about how that works are given in the next section.
+
 Take a look at the workflows in the [button label="Temporal UI" background="#444CE7"](tab-3) - note that failures are still occurring while Real World Mode is turned on.
 
 ## Step 3: Now, let's see how it works with Temporal!
