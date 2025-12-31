@@ -134,7 +134,7 @@ uv run reset_db.py
 <img src="../assets/anchorman_60_percent_API.jpg" alt="60 percent of the time it works every time" style="display: block; margin: 0 auto;" />
 Now we're going to make our API behave a bit more like a real-world API, with timeouts, errors, and general "it works most of the time" vibes.
 
-1. In the code editor [button label="Code Editor" background="#444CE7"](tab-2), in account_api.py, change REAL_WORLD_MODE = True.
+1. In the [button label="Code Editor" background="#444CE7"](tab-2), in account_api.py, change REAL_WORLD_MODE = True.
 
 2. Stop the running account_api.py in [button label="Terminal 1" background="#444CE7"](tab-0) (ctrl + C) then restart the API.
 ```bash,run
@@ -164,7 +164,7 @@ uv run reset_db.py
 ```
 
 ## Step 3: Now, let's see how it works with Temporal!
-Execute a Workflow to do the same process with the failure-prone "real world" API:
+in [button label="Terminal 2" background="#444CE7"](tab-1), execute a Workflow to do the same process with the failure-prone "real world" API:
 ```bash,run
 uv run run_workflow.py
 ```

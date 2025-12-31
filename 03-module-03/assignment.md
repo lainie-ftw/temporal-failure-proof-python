@@ -19,7 +19,7 @@ tabs:
   title: VS Code
   type: service
   hostname: workshop-host
-  path: /
+  path: ?folder=/workspace/temporal-failure-proof-python/exercises/module03
   port: 8443
 - id: mecu4v6zqf0b
   title: Temporal UI
@@ -65,7 +65,7 @@ In [button label="Terminal 1" background="#444CE7"](tab-0), run the included scr
 
 The output of this script will show the Workflow and Activity logger statements as you start money transfer Workflows.
 
-Feel free to take a look at the new API in the [button label="Code Editor" background="#444CE7"](tab-2) in the exercises/module03 folder!
+Feel free to take a look at the new API in the [button label="Code Editor" background="#444CE7"](tab-2)!
 
 ## Step 2: Start Transfers using a UI
 Check out the [button label="Money Transfer UI" background="#444CE7"](tab-1), and move some money around! You can reset the database at any time by hitting the Reset Database button on the top of the UI.
@@ -79,15 +79,15 @@ Take a look at the workflows in the [button label="Temporal UI" background="#444
 ## Step 3: Now, let's see how it works with Temporal!
 
 You can see in the Workflow code in the editor [button label="Code Editor" background="#444CE7"](tab-2).
-Check out the `@workflow.query` and `workflow.upsert_search_attributes()` calls. 
+Check out the `@workflow.query` and `workflow.upsert_search_attributes()` calls.
 
 The account view UI retrieves Workflow information via the money transfer API, which calls the Temporal API.
 
 ```
-            Account View UI 
-                   ↓        
-           Money Transfer API 
-                   ↓        
+            Account View UI
+                   ↓
+           Money Transfer API
+                   ↓
              Temporal API
                    ↓
          Running Workflows info
@@ -107,13 +107,13 @@ Take time to examine:
 - **Input/Results:** The data passed to and returned from your workflow
 - **Workflow Timeline:** Visual representation of the execution flow
 
-Consider the following questions: 
-- How many Workflows had errors in their Activities? 
+Consider the following questions:
+- How many Workflows had errors in their Activities?
 - What was the maximum number of retries needed in our real-world mode?
 - Did any fail completely?
 
 Consider if we had to debug without Temporal:
 - How would we find failed transfers? Would application logs help?
 - How would we connect failures in logs to specific transactions?
-- Without retries, we would have to find which transactions failed. Have you ever built this monitoring without Temporal? 
+- Without retries, we would have to find which transactions failed. Have you ever built this monitoring without Temporal?
 - Consider what would happen if we had multiple transfers in flight if our application crashed. Have you had something like this happen before?
