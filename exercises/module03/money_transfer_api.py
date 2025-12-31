@@ -18,7 +18,7 @@ import requests
 
 # Temporal imports
 from temporalio.client import Client, WorkflowExecutionStatus
-from workflow import MoneyTransferWorkflow, MoneyTransferInput
+from workflow import MoneyTransferWorkflowMod03, MoneyTransferInput
 
 app = Flask(__name__)
 
@@ -78,7 +78,7 @@ async def start_workflow_async(from_account, to_account, amount):
     
     # Start workflow
     handle = await client.start_workflow(
-        MoneyTransferWorkflow.run,
+        MoneyTransferWorkflowMod03.run,
         workflow_input,
         id=workflow_id,
         task_queue=TASK_QUEUE,
@@ -114,7 +114,7 @@ async def get_workflow_state_async(workflow_id):
         # Query workflow state if it's still running or just completed
         if status in ['RUNNING', 'COMPLETED']:
             try:
-                state = await handle.query(MoneyTransferWorkflow.get_state)
+                state = await handle.query(MoneyTransferWorkflowMod03.get_state)
                 workflow_data['input'] = state.get('input', {})
                 workflow_data['result'] = state.get('result')
                 # Include step progress data
@@ -161,7 +161,7 @@ async def get_all_workflows_async():
         
         # Query recent workflows
         async for workflow_execution in client.list_workflows(
-            f'WorkflowType="MoneyTransferWorkflow"'
+            f'WorkflowType="MoneyTransferWorkflowMod03"'
         ):
             workflow_id = workflow_execution.id
             

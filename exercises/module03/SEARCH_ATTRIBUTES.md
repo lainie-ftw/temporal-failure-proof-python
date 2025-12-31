@@ -1,6 +1,6 @@
 # Custom Search Attributes - Module 3
 
-This document describes the custom search attributes added to the MoneyTransferWorkflow.
+This document describes the custom search attributes added to the MoneyTransferWorkflowMod03.
 
 ## Search Attributes Added
 
@@ -155,7 +155,7 @@ Custom search attributes provide several benefits:
 
 1. **Terminate old workflows**:
    ```bash
-   temporal workflow terminate --query 'WorkflowType="MoneyTransferWorkflow" AND StartTime < "2025-12-30T16:40:00Z"' --reason "Cleaning up workflows before search attributes"
+   temporal workflow terminate --query 'WorkflowType="MoneyTransferWorkflowMod03" AND StartTime < "2025-12-30T16:40:00Z"' --reason "Cleaning up workflows before search attributes"
    ```
 
 2. **Or use workflow versioning** (advanced): Use Temporal's `workflow.patched()` API to make the change deterministic

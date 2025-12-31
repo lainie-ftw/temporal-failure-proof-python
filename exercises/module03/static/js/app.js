@@ -19,7 +19,6 @@ function initializeEventListeners() {
     document.getElementById('startBatchBtn').addEventListener('click', handleStartDailyBatch);
     document.getElementById('refreshBtn').addEventListener('click', refreshData);
     document.getElementById('resetDbBtn').addEventListener('click', handleResetDatabase);
-    document.getElementById('autoRefresh').addEventListener('change', handleAutoRefreshToggle);
     document.getElementById('clearHistoryBtn').addEventListener('click', clearHistory);
 }
 

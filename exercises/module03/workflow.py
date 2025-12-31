@@ -16,7 +16,7 @@ with workflow.unsafe.imports_passed_through():
 
 @dataclass
 class MoneyTransferInput:
-    """Input for MoneyTransferWorkflow."""
+    """Input for MoneyTransferWorkflowMod03."""
     from_account: str
     to_account: str
     amount: float
@@ -24,7 +24,7 @@ class MoneyTransferInput:
 
 @dataclass
 class MoneyTransferResult:
-    """Result from MoneyTransferWorkflow."""
+    """Result from MoneyTransferWorkflowMod03."""
     success: bool
     from_account: str
     to_account: str
@@ -46,7 +46,7 @@ WORKFLOW_STEPS = [
 
 
 @workflow.defn
-class MoneyTransferWorkflow:
+class MoneyTransferWorkflowMod03:
     """
     Workflow for transferring money between accounts.
     

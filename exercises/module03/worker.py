@@ -5,7 +5,7 @@ from temporalio.client import Client
 from temporalio.worker import Worker
 
 from activities import check_balance, withdraw, deposit
-from workflow import MoneyTransferWorkflow
+from workflow import MoneyTransferWorkflowMod03
 
 # Configure logging to show workflow and activity execution details
 logging.basicConfig(level=logging.INFO)
@@ -20,7 +20,7 @@ async def main():
     worker = Worker(
         client,
         task_queue="money-transfer-task-queue",
-        workflows=[MoneyTransferWorkflow],
+        workflows=[MoneyTransferWorkflowMod03],
         activities=[check_balance, withdraw, deposit],
     )
     
