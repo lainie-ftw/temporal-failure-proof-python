@@ -3,6 +3,25 @@ slug: module-04
 id: vnr32jtuegru
 type: challenge
 title: 'Module 4: Exploring Bug-Resistant Development'
+tabs:
+- title: Terminal 1
+  type: terminal
+  hostname: workshop-host
+  workdir: /workspace/temporal-failure-proof-python/exercises/module04
+- title: Money Transfer UI
+  type: service
+  hostname: workshop-host
+  path: /
+  port: 5001
+- title: VS Code
+  type: service
+  hostname: workshop-host
+  path: "8443"
+- title: Temporal UI
+  type: service
+  hostname: workshop-host
+  path: /
+  port: 8080
 difficulty: basic
 timelimit: 0
 lab_config:
