@@ -4,7 +4,7 @@ from temporalio.client import Client
 from temporalio.worker import Worker
 
 from activities import check_balance, withdraw, deposit
-from workflow import MoneyTransferWorkflow
+from workflow import MoneyTransferWorkflowMod04
 
 
 async def main():
@@ -16,7 +16,7 @@ async def main():
     worker = Worker(
         client,
         task_queue="money-transfer-task-queue",
-        workflows=[MoneyTransferWorkflow],
+        workflows=[MoneyTransferWorkflowMod04],
         activities=[check_balance, withdraw, deposit],
     )
     
