@@ -61,35 +61,31 @@ Exercise Steps
 
 ## Step 1: Setup
 
-1. In [button label="Terminal 1" background="#444CE7"](tab-0), run the included script that will start three things: 1) the `account_api` we used before, 2) the Temporal worker we used before, and 3) a new API called `money_transfer_api` that helps to facilitate communication between a new UI and money transfer actions - which are in this case Temporal Workflow actions.
+1. In [button label="Terminal 1" background="#444CE7"](tab-0), run the included script that will start three things, same as in Module 3: 1) the `account_api` we used before, 2) the Temporal worker we used before, and 3) a new API called `money_transfer_api` that helps to facilitate communication between a new UI and money transfer actions - which are in this case Temporal Workflow actions.
 ```bash,run
 ./start_services.sh
 ```
 
 The output of this script will show the Workflow and Activity logger statements as you start money transfer Workflows.
 
-Feel free to take a look at the new API in the [button label="Code Editor" background="#444CE7"](tab-2) in the exercises/module03 folder!
-
 ## Step 2: Run Transfers, Workflow Breaking Bugs
-Go to the [button label="Money Transfer UI" background="#444CE7"](tab-1), and move some money around.
-
-It's fine to do Real World Mode, but it'll be a bit simpler if you leave it off. Choose the level of chaos you prefer.
-
-Take a look at the workflows in the [button label="Temporal UI" background="#444CE7"](tab-3) - note that Workflows are failing. Explore the exception.
-
- (#TODO Laine maybe add a link to the code editor here?)
-Look at the Workflow code, can you find the problem?
+1. Go to the [button label="Money Transfer UI" background="#444CE7"](tab-1), and move some money around. It's fine to do Real World Mode here, but it'll be a bit simpler if you leave it off. Choose the level of chaos you prefer.
+2. Take a look at the workflows in the [button label="Temporal UI" background="#444CE7"](tab-3) - note that Workflows are failing. Explore the exception.
+3. Look at the Workflow code in the [button label="Code Editor" background="#444CE7"](tab-2), can you find the problem?
 
 <details>
 <summary>Hint (click to reveal)</summary>
 
-Check out the code Jerry added after checking account balance.
+Check out the code Jerry added in workflow.py, after checking the starting account balances.
 
 </details>
 
 <br />
-Fix Jerry's code, then restart the worker process.
-
+4. Fix Jerry's code.
+5. In [button label="Terminal 1" background="#444CE7"](tab-0), stop the running processes with `ctrl + C`, then restart them in order to restart the Temporal worker and pick up your repair:
+```bash,run
+./start_services.sh
+```
 As we saw when we crashed things in Module 1, Temporal Workflows will pick back up where they left off.
 Workflow task failures are retried forever until the Workflow succeeds or is ended.
 <br /><br />
@@ -107,7 +103,7 @@ Check out the code Jerry changed in the `withdraw()` Activity.
 </details>
 
 <br />
-Fix the Activity, restart the worker process, and see that Temporal picks up the latest Activity code and succeeds.
+Fix the Activity and restart the worker process the same way as described above, and see that Temporal picks up the latest Activity code and succeeds.
 <br /><br />
 Nice work!
 
