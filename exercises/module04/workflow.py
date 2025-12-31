@@ -31,8 +31,6 @@ class MoneyTransferResult:
     amount: float
     from_account_starting_balance: float
     to_account_starting_balance: float
-    from_account_final_balance: float
-    to_account_final_balance: float
     error_message: str = ""
 
 
@@ -62,8 +60,6 @@ class MoneyTransferWorkflowMod04:
         self._result = None
         self._from_account_starting_balance = None
         self._to_account_starting_balance = None
-        self._from_account_final_balance = None
-        self._to_account_final_balance = None
         # Step tracking
         self._current_step = None
         self._completed_steps = []
@@ -81,8 +77,6 @@ class MoneyTransferWorkflowMod04:
             "result": self._result,
             "from_account_starting_balance": self._from_account_starting_balance,
             "to_account_starting_balance": self._to_account_starting_balance,
-            "from_account_final_balance": self._from_account_final_balance,
-            "to_account_final_balance": self._to_account_final_balance,
             "steps": WORKFLOW_STEPS,
             "current_step": self._current_step,
             "completed_steps": self._completed_steps,
@@ -181,22 +175,6 @@ class MoneyTransferWorkflowMod04:
             f"Deposit successful. New balance: ${deposit_result.new_balance:.2f}"
         )
         
-        # Step 5: Get final balances
-        workflow.logger.info("Step 5: Retrieving final balances...")
-        final_from_balance = await workflow.execute_activity(
-            check_balance,
-            CheckBalanceInput(account_id=input.from_account),
-            start_to_close_timeout=timedelta(seconds=10),
-        )
-        self._from_account_final_balance = final_from_balance.balance
-        
-        final_to_balance = await workflow.execute_activity(
-            check_balance,
-            CheckBalanceInput(account_id=input.to_account),
-            start_to_close_timeout=timedelta(seconds=10),
-        )
-        self._to_account_final_balance = final_to_balance.balance
-        
         workflow.logger.info("✓ Transfer complete!")
         
         # Create result
@@ -207,8 +185,6 @@ class MoneyTransferWorkflowMod04:
             amount=input.amount,
             from_account_starting_balance=from_balance_result.balance,
             to_account_starting_balance=to_balance_result.balance,
-            from_account_final_balance=final_from_balance.balance,
-            to_account_final_balance=final_to_balance.balance,
         )
         
         # Update internal state
@@ -220,8 +196,6 @@ class MoneyTransferWorkflowMod04:
             'amount': result.amount,
             'from_account_starting_balance': result.from_account_starting_balance,
             'to_account_starting_balance': result.to_account_starting_balance,
-            'from_account_final_balance': result.from_account_final_balance,
-            'to_account_final_balance': result.to_account_final_balance,
             'error_message': result.error_message
         }
         

@@ -399,9 +399,6 @@ function formatWorkflowResult(result, status) {
                 <div><strong>Starting Balances:</strong></div>
                 <div>${result.from_account}: $${result.from_account_starting_balance.toFixed(2)} | 
                      ${result.to_account}: $${result.to_account_starting_balance.toFixed(2)}</div>
-                <div><strong>Final Balances:</strong></div>
-                <div>${result.from_account}: $${result.from_account_final_balance.toFixed(2)} | 
-                     ${result.to_account}: $${result.to_account_final_balance.toFixed(2)}</div>
             </div>
         `;
     } else if (status === 'FAILED') {
