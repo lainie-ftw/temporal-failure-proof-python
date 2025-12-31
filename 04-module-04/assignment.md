@@ -75,20 +75,18 @@ The output of this script will show the Workflow and Activity logger statements 
 
 <details>
 <summary>Hint (click to reveal)</summary>
-
 Check out the code Jerry added in workflow.py, after checking the starting account balances.
-
 </details>
-
-<br />
 4. Fix Jerry's code.
-5. In [button label="Terminal 1" background="#444CE7"](tab-0), stop the running processes with `ctrl + C`, then restart them in order to restart the Temporal worker and pick up your repair:
+5. In [button label="Terminal 1" background="#444CE7"](tab-0), stop the running processes with `ctrl + C`, then restart them. We don't actually need to restart everything here, only the worker, but it's fine to restart it all.
 ```bash,run
 ./start_services.sh
 ```
+
 As we saw when we crashed things in Module 1, Temporal Workflows will pick back up where they left off.
 Workflow task failures are retried forever until the Workflow succeeds or is ended.
-<br /><br />
+
+
 Now that the Workflows can proceed, it will finish the Workflow task and continue.
 
 ## Step 3: Activity Breaking Bugs
