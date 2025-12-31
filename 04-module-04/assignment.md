@@ -27,9 +27,10 @@ tabs:
   hostname: workshop-host
   path: /
   port: 8080
-- title: VS Code - Module 4
+- id: wk0mszqb5eum
+  title: VS Code - Module 4
   type: website
-  url: https://127.0.0.1:8443/?folder=/exercises/module04
+  url: https://workshop-host:8443/?folder=/workspace/temporal-failure-proof-python/exercises/module04
 difficulty: basic
 timelimit: 0
 lab_config:
