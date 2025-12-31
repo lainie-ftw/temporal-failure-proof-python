@@ -4,11 +4,13 @@ id: vnr32jtuegru
 type: challenge
 title: 'Module 4: Exploring Bug-Resistant Development'
 tabs:
-- title: Terminal 1
+- id: 2r2i0ewqetbh
+  title: Terminal 1
   type: terminal
   hostname: workshop-host
   workdir: /workspace/temporal-failure-proof-python/exercises/module04
-- title: Money Transfer UI
+- id: qo3rxamdvi8i
+  title: Money Transfer UI
   type: service
   hostname: workshop-host
   path: /
@@ -16,7 +18,8 @@ tabs:
 - title: VS Code
   type: service
   hostname: workshop-host
-  path: "8443"
+  path: /
+  port: 8443
 - title: Temporal UI
   type: service
   hostname: workshop-host
