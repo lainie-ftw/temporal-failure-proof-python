@@ -15,16 +15,21 @@ tabs:
   hostname: workshop-host
   path: /
   port: 5001
-- title: VS Code
+- id: jycgc41zahhd
+  title: VS Code
   type: service
   hostname: workshop-host
   path: /
   port: 8443
-- title: Temporal UI
+- id: mtyfn54itley
+  title: Temporal UI
   type: service
   hostname: workshop-host
   path: /
   port: 8080
+- title: VS Code - Module 4
+  type: website
+  url: https://127.0.0.1:8443/?folder=/exercises/module04
 difficulty: basic
 timelimit: 0
 lab_config:
