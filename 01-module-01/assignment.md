@@ -74,7 +74,7 @@ Note we didn't have to write any state management or code to checkpoint what sta
 ## Step 3: Check out the workflow in the Temporal UI
 Now let's examine the Workflow's state as it progressed.
 
-1. Click the **[button label="Temporal UI" background="#444CE7"](tab-2) Service tab** in your Instruqt envrionment.
+1. Click the **[button label="Temporal UI" background="#444CE7"](tab-1) tab** in your Instruqt envrionment.
 2. The **Workflows** pane will display all recent executions
 3. Locate your workflow (`print-numbers-workflow`) in the list
 
