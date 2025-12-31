@@ -131,7 +131,7 @@ uv run reset_db.py
 
 ## Step 2: Money movement with external API: REAL WORLD MODE
 
-<img src="../assets/anchorman_60_percent_API.jpg" alt="60 percent of the time it works every time" style="display: block; margin: 0 auto;" />
+<img src="https://play.instruqt.com/assets/tracks/rtzqx8gxhoke/d59e21279189f17bab04fe5e0e56e612/assets/anchorman_60_percent_API.jpg" alt="60 percent of the time, it works every time." style="display: block; margin: 0 auto;" />
 Now we're going to make our API behave a bit more like a real-world API, with timeouts, errors, and general "it works most of the time" vibes.
 
 1. In the [button label="Code Editor" background="#444CE7"](tab-2), in account_api.py, change REAL_WORLD_MODE = True.
