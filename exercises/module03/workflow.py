@@ -103,6 +103,11 @@ class MoneyTransferWorkflowMod03:
         self._input = input
         
         # Set custom search attributes for from_account and to_account
+        # This allows filtering and searching for workflows based on these attributes.
+        # See https://docs.temporal.io/features/search-attributes for more details.
+        # Note: Ensure that the search attributes are configured in your Temporal server.
+        # Note: It's more efficient to set search attributes once at the start of the workflow.
+        #   But we do it here to make it clear in the context of this exercise.
         workflow.upsert_search_attributes({
             "from_account": [input.from_account],
             "to_account": [input.to_account]
