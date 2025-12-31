@@ -20,7 +20,7 @@ Building on the application from Module 3, we're going to pretend that another d
 
 We'll explore how breaking bugs in Workflows and Activities work, and how we can fix them.
 
-<img src="./works_on_my_machine.png" alt="Works on my machine! " style="display: block; width: 60%; margin: 0 auto;"  />
+<img src="../assets/works_on_my_machine.png" alt="Works on my machine! " style="display: block; width: 60%; margin: 0 auto;"  />
 
 <p align="center"><em>Sometimes you have to deal with broken code.</em></p>
 
@@ -103,7 +103,7 @@ Temporal makes handling bugs simpler and clearer. Temporal applications keep sta
 <br /><br />
 In our experience with non-Temporal systems, this has gone very different. When there's a transaction- or process-breaking bug, it can cause things to stop in the middle with no possibility of restart. So in addition to finding and fixing the code, we have had to restart processes from the beginning, get data in sync in multiple different queues and databases, and clean up duplicate entries. Yikes!
 
-<img src="./sometimes_we_are_all_jerry.png" alt="Works on my machine! " style="display: block; width: 60%; margin: 0 auto;"  />
+<img src="../assets/sometimes_we_are_all_jerry.png" alt="Works on my machine! " style="display: block; width: 60%; margin: 0 auto;"  />
 <br />
 It's nice to know that even thow I'm not perfect, Temporal can help me fix issues.
 <br /><br />
