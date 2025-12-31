@@ -19,7 +19,7 @@ tabs:
   title: VS Code
   type: service
   hostname: workshop-host
-  path: /
+  path: ?folder=/workspace/temporal-failure-proof-python/exercises/module01
   port: 8443
 difficulty: ""
 timelimit: 0

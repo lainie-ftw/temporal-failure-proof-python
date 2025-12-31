@@ -27,10 +27,6 @@ tabs:
   hostname: workshop-host
   path: /
   port: 8080
-- id: 1ckesou4oub7
-  title: VS Code - Module 4
-  type: website
-  url: https://workshop-host:8443/?folder=/workspace/temporal-failure-proof-python/exercises/module04
 difficulty: basic
 timelimit: 0
 lab_config:
