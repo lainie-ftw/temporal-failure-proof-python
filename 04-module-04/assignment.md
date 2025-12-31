@@ -72,16 +72,17 @@ The output of this script will show the Workflow and Activity logger statements 
 1. Go to the [button label="Money Transfer UI" background="#444CE7"](tab-1), and move some money around. It's fine to do Real World Mode here, but it'll be a bit simpler if you leave it off. Choose the level of chaos you prefer.
 2. Take a look at the workflows in the [button label="Temporal UI" background="#444CE7"](tab-3) - note that Workflows are failing. Explore the exception.
 3. Look at the Workflow code in the [button label="Code Editor" background="#444CE7"](tab-2), can you find the problem?
-
-<details>
-<summary>Hint (click to reveal)</summary>
-Check out the code Jerry added in workflow.py, after checking the starting account balances.
-</details>
 4. Fix Jerry's code.
-5. In [button label="Terminal 1" background="#444CE7"](tab-0), stop the running processes with `ctrl + C`, then restart them. We don't actually need to restart everything here, only the worker, but it's fine to restart it all.
+5. In [button label="Terminal 1" background="#444CE7"](tab-0), stop the running processes with `ctrl + C`
+6. Restart the running processes. We don't actually need to restart everything here, only the worker, but it's fine to restart it all.
 ```bash,run
 ./start_services.sh
 ```
+
+<details>
+<summary>Hint for what to fix, if you need it! (click to reveal)</summary>
+Check out the code Jerry added in workflow.py, after checking the starting account balances.
+</details>
 
 As we saw when we crashed things in Module 1, Temporal Workflows will pick back up where they left off.
 Workflow task failures are retried forever until the Workflow succeeds or is ended.
